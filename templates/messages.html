@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Messages{% endblock %}
+
+{% block content %}
+    <div class="Page">
+        <div class="wrap-container">
+            <!--            left side-->
+            <div class="navigate-bars wrap-1">
+                <div class="empty">
+                </div>
+                <div class="main-left-container">
+                    <div class="logo">
+                        <h4>Fragman</h4>
+                    </div>
+                    <nav class="nav-bar">
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
+                                </svg>
+                            </div>
+                            <div class="a">
+                                <a href="{% url 'index' %}" class="home-href">Home</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                     viewBox="0 0 30 30">
+                                    <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"></path>
+                                </svg>
+                            </div>
+                            <div class="explore">
+                                <a href="{% url 'explore' %}" class="explore-href">Explore</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-notifications-78.png' %}" alt="">
+                            </div>
+                            <div class="notifications">
+                                <a href="{% url 'notifications' %}" class="notifications-href">Notifications</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-chat-bubble-50.png' %}" alt="">
+                            </div>
+                            <div class="Message">
+                                <a href="{% url 'show_msg' %}" class="Message-href">Message</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="Profile">
+                                <a href="profile/{{ user.username }}" class="profile-href">Profile</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="More">
+                                <a class="more-href">More</a>
+                            </div>
+                        </div>
+                        <div class="hidden-settings">
+                            <a id="settings-hover" href="{% url 'logout' %}"> Logout</a>
+                        </div>
+
+
+                    </nav>
+                    <div class="more-settings">
+                        <div class="logout-profile-settings">
+                            <div class="lgm">
+                                <div>
+                                    <img class="logo-image lgm" src="{{ my_profile.avatar.url }}" alt="">
+                                </div>
+                            </div>
+                            <div class="user-nick">
+                                <div class="set-nick-user">
+                                    <span class="nickname ">{{ my_profile.nickname }}</span>
+                                    <span class="username">@{{ my_profile.username }}</span>
+                                </div>
+                            </div>
+                            <div class="dots">
+                                <h4>...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-sector wrap-2">
+
+                {% for message in messages %}
+                    {% if message.messages.last.is_read %}
+                        <div class="messages-container-1" data-href="{% url 'send_message' id=message.id %}"
+                        >
+                    {% else %}
+                        <div class="messages-container-1" style="background: #dcffdc"
+                             data-href="{% url 'send_message' id=message.id %}">
+                    {% endif %}
+                <div class="message-to">
+                    <div class="user-info">
+                        <div class="user-img">
+                            <img class="logo-image lgm" src="{{ message.receiver.avatar.url }}" alt="">
+                        </div>
+                        <div class="usr-link">
+                            <span class="nickname">{{ message.receiver.nickname }}</span>
+                            <a href="{% url 'profile' pk=message.receiver.username %}">
+                                <span class="username">@{{ message.receiver.username }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="last-message">
+                        <div class="img-last-user">
+                            <img class="logo-image lgm" src="{{ message.messages.last.sender.avatar.url }}"
+                                 alt="">
+                        </div>
+                        <div class="last-content-text">
+                            {{ message.messages.last.content }}
+                        </div>
+                    </div>
+                </div>
+                </div>
+                {% endfor %}
+                <script>
+                    $(document).ready(() => {
+                        $(".messages-container-1").click((e) => {
+                            e.stopPropagation();
+
+                            const div = $(e.currentTarget);
+                            const url = div.data("href");
+
+                            if (url) {
+                                window.location.href = url;
+                            }
+                        });
+                    });
+                </script>
+                <style>
+
+
+                    .messages-container-1 {
+                        margin: 20px;
+                        background-color: #f2f2f2;
+                        border-radius: 10px;
+                        padding: 10px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        transition: .3s;
+
+
+                    }
+
+                    .messages-container-1:hover {
+                        background-color: #e6e6e6;
+                        cursor: pointer;
+                    }
+
+                    .message-to {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+
+                    }
+
+                    .user-info {
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                    }
+
+                    .user-img {
+                        margin-right: 10px;
+                    }
+
+                    .user-img .logo-image {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                    }
+
+                    .usr-link {
+                        display: flex;
+                        justify-content: center;
+                        position: relative;
+                    }
+
+                    .nickname {
+                        font-weight: bold;
+                        color: #333;
+                    }
+
+                    .username {
+                        color: #777;
+                    }
+
+                    .last-message {
+                        display: flex;
+                        align-items: center;
+                        margin-left: 55px;
+                        position: relative;
+                        top: -5px;
+
+                    }
+
+                    .img-last-user {
+                        margin-right: 10px;
+                    }
+
+                    .img-last-user .logo-image {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                    }
+
+                    .last-content-text {
+                        background-color: #fff;
+                        padding: 8px 12px;
+                        border-radius: 10px;
+                        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+                    }
+
+
+                </style>
+                </div>
+            </div>
+        </div>
+
+        <!--            left side-->
+        <div class="left-side wrap3">
+
+            <div class="empty">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

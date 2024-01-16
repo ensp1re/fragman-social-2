@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{ profile.nickname }} (@{{ profile.username }}) {% endblock %}
+
+{% block content %}
+    <div class="Page" style="overflow: hidden;">
+        <div class="wrap-container">
+            <!--            left side-->
+            <div class="navigate-bars wrap-1">
+                <div class="empty">
+                </div>
+                <div class="main-left-container">
+                    <div class="logo">
+                        <h4>Fragman</h4>
+                    </div>
+
+                    <nav class="nav-bar">
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
+                                </svg>
+                            </div>
+                            <div class="a">
+                                <a href="{% url 'index' %}" class="home-href">Home</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                     viewBox="0 0 30 30">
+                                    <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"></path>
+                                </svg>
+                            </div>
+                            <div class="explore">
+                                <a href="{% url 'explore' %}" class="explore-href">Explore</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-notifications-78.png' %}" alt="">
+                            </div>
+                            <div class="notifications">
+                                <a href="{% url 'notifications' %}" class="notifications-href">Notifications</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-chat-bubble-50.png' %}" alt="">
+                            </div>
+                            <div class="Message">
+                                <a class="Message-href">Message</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="Profile">
+                                <a href="{% url 'profile' pk=my_profile.username %}" class="profile-href">Profile</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <script>
+
+                            </script>
+                            <div class="More">
+                                <a class="more-href">More</a>
+                            </div>
+                        </div>
+                        <div class="hidden-settings">
+                            <a id="settings-hover" href="{% url 'settings' %}"> Settings</a>
+                        </div>
+
+
+                    </nav>
+                    <div class="more-settings">
+                        <div class="logout-profile-settings">
+                            <div class="lgm">
+                                <div>
+                                    <img class="logo-image lgm" src="{{ my_profile.avatar.url }}" alt="">
+                                </div>
+                            </div>
+                            <div class="user-nick">
+                                <div class="set-nick-user">
+                                    <span class="nickname ">{{ my_profile.nickname }}</span>
+                                    <span class="username">@{{ my_profile.username }}</span>
+                                </div>
+                            </div>
+                            <div class="dots">
+                                <h4>...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sector wrap-2" style="overflow: auto">
+                <div class="profile-hat-info" style="display: flex;">
+                    <div style="width: 100%; display: flex; justify-content: space-around; align-items: center">
+                        <div style="margin-right: 100px; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;">
+                            <h4 class="nickname profile-username-hat">{{ profile.nickname }}</h4>
+                            {% if number_of_posts < 1 %}
+                                <h4 class="username posts-counter">{{ number_of_posts }} posts</h4>
+                            {% elif number_of_posts == 1 %}
+                                <h4 class="username posts-counter">{{ number_of_posts }} post</h4>
+                            {% elif number_of_posts == 0 %}
+                                <h4 class="username posts-counter">No posts</h4>
+                            {% endif %}
+                        </div>
+                        {% if profile.username != my_profile.username %}
+                            <form action="{% url 'create_snd' %}" method="post"
+                                  style="width: 50%; display: flex; justify-content: flex-end; align-items: center">
+                                {% csrf_token %}
+                                <input type="hidden" name="profile-receiver" value="{{ profile.username }}">
+                                <button type="submit" class="btn btn-toolbar btn-sm btn-primary">Send message</button>
+                            </form>
+                        {% endif %}
+                    </div>
+
+                    <div class="hat-of_channel">
+                        <div class="image-hat">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="bio">
+                        <div class="logo-and-btn">
+                            <div class="logo-profile">
+                                <img src="{{ profile.avatar.url }}" alt="">
+                            </div>
+                            <div class="Profile-btn">
+                                <div>
+                                    {% if profile.username == my_profile.username %}
+                                        <a href="{% url 'settings' %}" class="profile-href-btn settings">
+                                            <span>Edit profile</span>
+                                        </a>
+                                    {% else %}
+                                        {% if is_following or is_friends %}
+                                            <form action="{% url 'unfollow' %}" method="post">
+                                                {% csrf_token %}
+                                                <input name="receiver" type="hidden" value="{{ profile.username }}">
+                                                <button type="submit" class="btn-follow-profile btn-success">
+                                                    <span>Unfollow</span>
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            {% if is_follower %}
+                                                <form action="{% url 'follow_back' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input name="receiver" type="hidden" value="{{ profile.username }}">
+                                                    <button type="submit" class="btn-follow-profile btn-success">
+                                                        <span>Follow Back</span>
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <form action="{% url 'follow' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input name="receiver" type="hidden" value="{{ profile.username }}">
+                                                    <button type="submit" class="btn-follow-profile btn-success">
+                                                        <span>Follow</span>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pre-user-nick-profile">
+                            <div class="user-nick-profile">
+                                <span class="nickname">{{ profile.nickname }}</span>
+                                <span class="username">@{{ profile.username }}</span>
+                            </div>
+                            <div class="is_foll">
+                                {% if is_friends %}
+                                    <span>Followed each other</span>
+                                {% elif is_follower %}
+                                    <span>Follows you</span>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                        <script>
+                        </script>
+                        <div class="bio-profile">
+                            <p>
+                                {{ profile.bio|safe }}
+                            </p>
+                        </div>
+                        <div class="profile-follows">
+                            <div class="following">
+                                <span>{{ following }}</span>
+                                <span>following</span>
+                            </div>
+                            <div class="followers">
+                                <span>{{ followers }} followers</span>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            function loadContent(url) {
+                                $.ajax({
+                                    url: url,
+                                    success: function (data) {
+                                        $('.profile-posts').html("");
+                                        $('.profile-posts').html(data);
+                                    }
+                                });
+                            }
+
+                            function clearActive(classDiv) {
+                                list_classes = [".Posts", ".Replies", ".Highlights", ".Likes"]
+                                for (i = 0; i < list_classes.length; i++) {
+                                    if (list_classes[i] === classDiv) {
+                                        $(classDiv).addClass("active")
+                                    } else {
+                                        $(list_classes[i]).removeClass("active")
+                                    }
+                                }
+                            }
+
+
+                            $('.Highlights').click(function (event) {
+                                event.preventDefault();
+                                clearActive(".Highlights")
+                                const url = $(this).data('url');
+                                {#history.pushState(null, "Saved by {{ profile.username }}", "{% url 'with_saves' pk=profile.username %}")#}
+                                loadContent(url);
+                            });
+
+
+                            $('.Posts').click(function (event) {
+                                event.preventDefault();
+                                clearActive(".Posts")
+                                const url = $(this).data('url');
+                                loadContent(url);
+                            });
+                        });
+                    </script>
+                    <div class="nav-profile">
+                        <div class="Posts nav-profile-hover active"
+                             data-url="{% url 'with_posts' pk=profile.username %}">
+                            <span class="nav-profile-names ">Posts</span>
+                        </div>
+                        <div class="Replies nav-profile-hover">
+                            <span class="nav-profile-names">Replies</span>
+                        </div>
+                        <div class="Highlights nav-profile-hover"
+                             data-url="{% url 'with_saves' pk=profile.username %}">
+                            <span class="nav-profile-names">Saved</span>
+                        </div>
+                        <div class="Media nav-profile-hover">
+                            <span class="nav-profile-names">Media</span>
+                        </div>
+                        <div class="Likes nav-profile-hover">
+                            <span class="nav-profile-names">Likes</span>
+                        </div>
+                    </div>
+                    <div class="profile-posts profile-sector">
+                        {% include 'with_saves.html' %}
+                        {% include 'with_posts.html' %}
+                        {% include 'with_saves.html' %}
+
+                        {% for post in posts reversed %}
+                            <div class="post-container-1">
+                                <div class="content">
+                                    <div class="logo-post-side">
+                                        <div class="logo-post">
+                                            <img class="logo-image" src="{{ post.user_profile.avatar.url }}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="content-side">
+                                        <div class="nav-user">
+                                            <div class="nav-us">
+                                                <span class="nickname">{{ post.user_profile.nickname }}</span>
+                                                <span class="username">@{{ post.user_profile.username }}</span>
+                                            </div>
+                                            <div class="more-settings">
+                                                <div class="circle">
+                                                    <span class="more-set-dots">...</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text">
+                                            {{ post.caption|linebreaksbr }}
+                                        </div>
+                                        <div class="image-container">
+                                            {% if post.image %}
+                                                <img class="post-img" src="{{ post.image.url }}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="post-instruments">
+                                            <div class="like-comment-share">
+                                                <div class="like">
+                                                    <img src="{% static 'images/icons8-like-50.png' %}" alt="">
+                                                </div>
+                                                <div class="comment">
+                                                    <img src="{% static 'images/icons8-bookmark-32.png' %}" alt="">
+                                                </div>
+                                                <div class="share">
+                                                    <img src="{% static 'images/icons8-share-50.png' %}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="bookmark">
+                                                <div class="comment">
+                                                    <img src="{% static 'images/icons8-bookmark-32.png' %}" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="like-info">
+                                            <h4 class="text-like">4,989 likes</h4>
+                                        </div>
+                                        <div class="comment-post">
+                                            <div class="show-comment">
+                                                <h4 class="text-like">View all comments</h4>
+                                            </div>
+                                            <div class="post-comment">
+                                                <form>
+                                                    <div class="text-com">
+                                                                            <textarea class="com"
+                                                                                      oninput="autoResize(this)"
+                                                                                      placeholder="Comment here..."
+                                                                                      id=""></textarea>
+                                                    </div>
+                                                    <div class="submit">
+                                                        <button type="submit" class="btn-input btn-sm  btn-success">Post
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+            <!--            left side-->
+            <div class="left-side wrap3">
+                <div class="suggested-users">
+                    <div class="description-field">
+                        <h4 class="des-text">Suggested for you</h4>
+                        <h4>See all</h4>
+                    </div>
+                    <div class="suggested-accs">
+                        <div class="user-1">
+                            <div class="img-sug-user">
+                                <img class="logo-image" src="{% static 'images/avatar.jpg' %}" alt="">
+                            </div>
+                            <div class="nav-users">
+                                <span class="nickname">Enspire</span>
+                                <span class="username">@EnspireNFT</span>
+                            </div>
+                            <div class="follow-btn">
+                                <button class="btn-follow-sug">Follow</button>
+                            </div>
+                        </div>
+                        <div class="user-1">
+                            <div class="img-sug-user">
+                                <img class="logo-image" src="{% static 'images/avatar.jpg' %}" alt="">
+                            </div>
+                            <div class="nav-users">
+                                <span class="nickname">Enspire</span>
+                                <span class="username">@EnspireNFT</span>
+                            </div>
+                            <div class="follow-btn">
+                                <button class="btn-follow-sug">Follow</button>
+                            </div>
+                        </div>
+                        <div class="user-1">
+                            <div class="img-sug-user">
+                                <img class="logo-image" src="{% static 'images/avatar.jpg' %}" alt="">
+                            </div>
+                            <div class="nav-users">
+                                <span class="nickname">Enspire</span>
+                                <span class="username">@EnspireNFT</span>
+                            </div>
+                            <div class="follow-btn">
+                                <button class="btn-follow-sug">Follow</button>
+                            </div>
+                        </div>
+                        <div class="user-1">
+                            <div class="img-sug-user">
+                                <img class="logo-image" src="{% static 'images/avatar.jpg' %}" alt="">
+                            </div>
+                            <div class="nav-users">
+                                <span class="nickname">Enspire</span>
+                                <span class="username">@EnspireNFT</span>
+                            </div>
+                            <div class="follow-btn">
+                                <button class="btn-follow-sug">Follow</button>
+                            </div>
+                        </div>
+                        <div class="user-1">
+                            <div class="img-sug-user">
+                                <img class="logo-image" src="{% static 'images/avatar.jpg' %}" alt="">
+                            </div>
+                            <div class="nav-users">
+                                <span class="nickname">Enspire</span>
+                                <span class="username">@EnspireNFT</span>
+                            </div>
+                            <div class="follow-btn">
+                                <button class="btn-follow-sug">Follow</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

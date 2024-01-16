@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Settings (@{{ my_profile.username }}) {% endblock %}
+
+{% block content %}
+    <div class="Page">
+        <div class="wrap-container">
+            <!--            left side-->
+            <div class="navigate-bars wrap-1">
+                <div class="empty">
+                </div>
+                <div class="main-left-container">
+                    <div class="logo">
+                        <h4>Fragman</h4>
+                    </div>
+
+                    <nav class="nav-bar">
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
+                                </svg>
+                            </div>
+                            <div class="a">
+                                <a href="{% url 'index' %}" class="home-href">Home</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                     viewBox="0 0 30 30">
+                                    <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"></path>
+                                </svg>
+                            </div>
+                            <div class="explore">
+                                <a href="{% url 'explore' %}" class="explore-href">Explore</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-notifications-78.png' %}" alt="">
+                            </div>
+                            <div class="notifications">
+                                <a href="{% url 'notifications' %}" class="notifications-href">Notifications</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-chat-bubble-50.png' %}" alt="">
+                            </div>
+                            <div class="Message">
+                                <a class="Message-href">Message</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="Profile">
+                                <a href="profile/{{ my_profile.username }}" class="profile-href">Profile</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <script>
+
+                            </script>
+                            <div class="More">
+                                <a class="more-href">More</a>
+                            </div>
+                        </div>
+                        <div class="hidden-settings">
+                            <a id="settings-hover" href="{% url 'settings' %}"> Settings</a>
+                        </div>
+
+
+                    </nav>
+                    <div class="more-settings">
+                        <div class="logout-profile-settings">
+                            <div class="lgm">
+                                <div>
+                                    <img class="logo-image lgm" src="{{ my_profile.avatar.url }}" alt="">
+                                </div>
+                            </div>
+                            <div class="user-nick">
+                                <div class="set-nick-user">
+                                    <span class="nickname ">{{ my_profile.nickname }}</span>
+                                    <span class="username">@{{ my_profile.username }}</span>
+                                </div>
+                            </div>
+                            <div class="dots">
+                                <h4>...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+
+
+            </style>
+            <div class="content-sector wrap-2">
+                <div class="choose-type-feed-or-followings">
+                    <div class="title-page">
+                        <p>Post</p>
+                    </div>
+                </div>
+                <div class="main-post-container">
+                    <div class="content-container">
+                        <div class="logo-post-container">
+                            <img src="{{ post_detail.user_profile.avatar.url }}" alt="">
+                            <div class="navs-post-container">\
+                                <span class="nickname-post-detail">
+                                                     <a style="color: black; margin-right: 5px" class="clear-href-design"
+                                                        href="{% url 'profile' pk=post_detail.user_profile.username %}">
+                                                    {{ post_detail.user_profile.nickname }}
+                                                     </a>
+                                </span>
+                                <span class="username-post-detail">
+                                                    <a style="color:#616161;" class="clear-href-design"
+                                                       href="{% url 'profile' pk=post_detail.user_profile.username %}">
+                                                    {{ post_detail.user_profile.username }}
+                                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="main-post-inner">
+                            <div class="caption-post-inner">
+                                <div>
+                                    <p>
+                                        {{ post_detail.caption|safe }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="post-instruments post-tools-inner">
+                                <div class="like-comment-share">
+                                    <div class="like">
+                                        <form id="like-form-{{ post.id }}" action="{% url 'like' %}"
+                                              method="post">
+                                            {% csrf_token %}
+                                            {% if profile not in post.get_all_liked_profiles %}
+                                                <input type="hidden" class="post-id-cl" name="post_id"
+                                                       value="{{ post.id }}">
+                                                <input type="hidden" name="action" class="like-action"
+                                                       value="like">
+                                                <button style="display: block" type="button"
+                                                        class="like-button like-btn">
+                                                    <img src="{% static 'images/icons8-like-50.png' %}"
+                                                         alt="">
+                                                </button>
+                                                <button type="button" class="unlike-button like-btn"
+                                                        style="display: none">
+                                                    <img src="{% static 'images/icons8-love-48.png' %}"
+                                                         alt="">
+                                                </button>
+                                            {% else %}
+                                                <input type="hidden" class="post-id-cl" name="post_id"
+                                                       value="{{ post.id }}">
+                                                <input type="hidden" name="action" class="like-action"
+                                                       value="unlike">
+                                                <button style="display: none" type="button"
+                                                        class="like-button like-btn">
+                                                    <img src="{% static 'images/icons8-like-50.png' %}"
+                                                         alt="">
+                                                </button>
+                                                <button type="button" class="unlike-button like-btn"
+                                                        style="display: block">
+                                                    <img src="{% static 'images/icons8-love-48.png' %}"
+                                                         alt="">
+                                                </button>
+                                            {% endif %}
+                                        </form>
+
+                                    </div>
+                                    <div class="comment">
+                                        <img src="{% static 'images/icons8-comment-50.png' %}" alt="">
+                                    </div>
+                                    <div class="share">
+                                        <img src="{% static 'images/icons8-share-50.png' %}" alt="">
+                                    </div>
+                                </div>
+                                <div class="bookmark">
+                                    <div class="comment">
+                                        <img src="{% static 'images/icons8-bookmark-32.png' %}" alt="">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="like-info like-info-inner">
+                            {% if post.get_number_of_likes == 0 %}
+                                <h4 class="text-like-{{ post.id }}">No likes</h4>
+                            {% elif post.get_number_of_likes == 1 %}
+                                <h4 class="text-like-{{ post.id }}">{{ post.get_number_of_likes }}
+                                    like</h4>
+                            {% else %}
+                                <h4 class="text-like-{{ post.id }}">{{ post.get_number_of_likes }}
+                                    like</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="comments-post-container">
+                        <div class="comment-inner-container-detail">
+                            <div class="logo-comment-container-detail">
+                                <img src="{{ post_detail.user_profile.avatar.url }}" alt="">
+                            </div>
+                            <form id="comment-form-{{ post.id }}" action="{% url 'comment' %}" method="post"
+                                  class="comment-form-inner-detail">
+                                {% csrf_token %}
+                                <div class="text-area-comment-detail">
+                                    <textarea name="commentField" placeholder="Reply this post" id="" cols="30"
+                                              rows="10"></textarea>
+                                </div>
+                                <input type="hidden" name="post_id_comment" class="post_id_comment"
+                                       value="{{ post_detail.id }}">
+                                <div class="form-comment-tools-detail">
+                                    <button id="reply-btn" type="submit" class="btn btn-success">Reply</button>
+                                </div>
+                            </form>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#reply-btn").on("click", function (e) {
+                                        e.preventDefault();
+                                        e.stopImmediatePropagation();
+                                        var btn = $(this);
+                                        var form = btn.closest("form");
+                                        var url = form.attr("action");
+                                        var textarea = form.find("textarea");
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: url,
+                                            data: form.serialize(),
+                                            success: function (response) {
+                                                console.log(response.status);
+                                                textarea.val("");
+
+                                                var newComment = `
+            <div class="comment-1-detail">
+                <div class="comment-navs-container-detail">
+                    <div class="comment-nav-1-detail">
+                        <div class="logo-comment-container-detail">
+                            <img src="${response.avatar}" alt="">
+                        </div>
+                        <div class="usernick-comment-detail">
+                            <span class="nickname-post-detail">
+                                <a style="color: black;" class="clear-href-design"
+                                   href="${response.username_href}">
+                                    ${response.nickname}
+                                </a>
+                            </span>
+                            <span class="username-post-detail">
+                                <a style="color:#616161;" class="clear-href-design"
+                                   href=${response.username_href}>
+                                    ${response.username}
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="caption-comment-detail">
+                    <p class="text-container-detail">
+                        ${response.text}
+                    </p>
+                </div>
+            </div>
+        `;
+
+                                                $(".comments-container-detail").prepend(newComment);
+                                            },
+                                            error: function (error) {
+                                                textarea.val("");
+                                                console.log("Error", error);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="comments-container-detail">
+                            {% for comment in comments reversed %}
+                                <div class="comment-1-detail">
+                                    <div class="comment-navs-container-detail">
+                                        <div class="comment-nav-1-detail">
+                                            <div class="logo-comment-container-detail">
+                                                <img src="{{ comment.author.avatar.url }}" alt="">
+                                            </div>
+                                            <div class="usernick-comment-detail">
+
+                                                <span class="nickname-post-detail">
+                                                     <a style="color: black;" class="clear-href-design"
+                                                        href="{% url 'profile' pk=comment.author.username %}">
+                                                    {{ comment.author.nickname }}
+                                                     </a>
+                                                </span>
+                                                <span class="username-post-detail">
+                                                    <a style="color:#616161;" class="clear-href-design"
+                                                       href="{% url 'profile' pk=comment.author.username %}">
+                                                    {{ comment.author.username }}
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="caption-comment-detail">
+                                        <p class="text-container-detail">
+                                            {{ comment.text|linebreaksbr }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            left side-->
+            <div class="left-side wrap3">
+
+                <div class="empty">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

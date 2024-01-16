@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Sign In {% endblock %}
+
+{% block content %}
+    <div class="page">
+        <header class="header-sign">
+            <div class="logo-header">
+                <span class="logo-text">Fragman</span>
+            </div>
+            <div class="nav-header-sign">
+                <a href="{% url 'register' %}" class="btn-header-user">Sign Up</a>
+            </div>
+        </header>
+        <main>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const alertDiv = document.getElementsByClassName("alert-error")[0]
+                    const h5Alert = alertDiv.querySelector("h5")
+
+                    if (h5Alert.textContent.trim() !== "") {
+                        alertDiv.style.display = "block"
+                    } else {
+                        alertDiv.style.display = "none"
+                    }
+                })
+            </script>
+            <div class="content-main">
+                <form action="{% url 'login'%}" method="post">
+                {% csrf_token %}
+                    <div class="sign-up-text">
+                        Sign In
+                    </div>
+                   <div class="alert-error">
+                       {% for message in messages %}
+                        <h5>
+                            {{ message }}
+                        </h5>
+                       {% endfor %}
+                    </div>
+                    <div class="items">
+                       <div class="item">
+                           <input name="username" class="input-form-sign" type="text" placeholder="Enter username...">
+                       </div>
+                       <div class="item">
+                           <input name="password" class="input-form-sign" type="password" placeholder="Enter password...">
+                       </div>
+                    </div>
+                    <div class="btn-submit-div">
+                        <button class="btn-submit" type="submit">Sign In</button>
+                    </div>
+                </form>
+            </div>
+
+        </main>
+        <footer>
+
+        </footer>
+    </div>
+{% endblock %}

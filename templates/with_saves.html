@@ -1,0 +1,71 @@
+{% load static %}
+{% for post in saved reversed %}
+    <div class="post-container-1">
+        <div class="content">
+            <div class="logo-post-side">
+                <div class="logo-post">
+                    <img class="logo-image" src="{{ post.user_profile.avatar.url }}" alt="">
+                </div>
+            </div>
+            <div class="content-side">
+                <div class="nav-user">
+                    <div class="nav-us">
+                        <span class="nickname">{{ post.user_profile.nickname }}</span>
+                        <span class="username">@{{ post.user_profile.username }}</span>
+                    </div>
+                    <div class="more-settings">
+                        <div class="circle">
+                            <span class="more-set-dots">...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text">
+                    {{ post.caption|linebreaksbr }}
+                </div>
+                <div class="image-container">
+                    {% if post.image %}
+                        <img class="post-img" src="{{ post.image.url }}" alt="">
+                    {% endif %}
+                </div>
+                <div class="post-instruments">
+                    <div class="like-comment-share">
+                        <div class="like">
+                            <img src="{% static 'images/icons8-like-50.png' %}" alt="">
+                        </div>
+                        <div class="comment">
+                            <img src="{% static 'images/icons8-bookmark-32.png' %}" alt="">
+                        </div>
+                        <div class="share">
+                            <img src="{% static 'images/icons8-share-50.png' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="bookmark">
+                        <div class="comment">
+                            <img src="{% static 'images/icons8-bookmark-32.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="like-info">
+                    <h4 class="text-like">4,989 likes</h4>
+                </div>
+                <div class="comment-post">
+                    <div class="show-comment">
+                        <h4 class="text-like">View all comments</h4>
+                    </div>
+                    <div class="post-comment">
+                        <form>
+                            <div class="text-com">
+                                                    <textarea class="com" oninput="autoResize(this)"
+                                                              placeholder="Comment here..." id=""></textarea>
+                            </div>
+                            <div class="submit">
+                                <button type="submit" class="btn-input btn-sm  btn-success">Post
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

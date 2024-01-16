@@ -1,0 +1,819 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    <div class="Page" style="overflow-y: hidden">
+
+        <div class="wrap-container">
+            <!--            left side-->
+            <div class="navigate-bars wrap-1">
+                <div class="empty">
+                </div>
+                <div class="main-left-container">
+                    <div class="logo">
+                        <h4>Fragman</h4>
+                    </div>
+
+                    <nav class="nav-bar">
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
+                                </svg>
+                            </div>
+                            <div class="a">
+                                <a href="{% url 'index' %}" class="home-href">Home</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                     viewBox="0 0 30 30">
+                                    <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"></path>
+                                </svg>
+                            </div>
+                            <div class="explore">
+                                <a href="{% url 'explore' %}" class="explore-href">Explore</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-notifications-78.png' %}" alt="">
+                                {% if num_of_notification != 0 %}
+                                    <div class="circle-notify">
+                                        <span id="count-notify">{{ num_of_notification }}</span>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                            <div class="notifications">
+                                <a href="{% url 'notifications' %}" class="notifications-href">Notifications</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-chat-bubble-50.png' %}" alt="">
+                            </div>
+                            <div class="Message">
+                                <a href="{% url 'show_msg' %}" class="Message-href">Message</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="Profile">
+                                <a href="profile/{{ user }}" class="profile-href">Profile</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="More">
+                                <a class="more-href">More</a>
+                            </div>
+                        </div>
+                        <div class="hidden-settings">
+                            <a id="settings-hover" href="{% url 'logout' %}"> Logout</a>
+                        </div>
+
+
+                    </nav>
+                    <div class="more-settings">
+                        <div class="logout-profile-settings">
+                            <div class="lgm">
+                                <div>
+                                    <img class="logo-image lgm" src="{{ profile.avatar.url }}" alt="">
+                                </div>
+                            </div>
+                            <div class="user-nick">
+                                <div class="set-nick-user">
+                                    <span class="nickname ">{{ profile.nickname }}</span>
+                                    <span class="username">@{{ profile.username }}</span>
+                                </div>
+                            </div>
+                            <div class="dots">
+                                <h4>...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sector wrap-2" style="overflow-y: auto;">
+                <div class="choose-type-feed-or-followings">
+                    <div class="title-page">
+                        <p>Home</p>
+                    </div>
+                    <div class="chose">
+                        <div class="center">
+                            <p class="chose-text active">
+                                Feed
+                            </p>
+                        </div>
+                        <div class="center">
+                            <p class="chose-text">
+                                Following
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-form">
+                    <div class="logo-side">
+                        <div class="logo-div">
+                            <img class="logo-image" src="{{ profile.avatar.url }}" alt="">
+                        </div>
+                    </div>
+                    <script>
+                        function autoResize(textArea) {
+                            textArea.style.height = "auto";
+                            textArea.style.height = (textArea.scrollHeight) + "px";
+                        }
+
+                        function addAbzatc(text) {
+                            const htmlText = text.replace(/\n+/g, '<p></p>');
+                            return htmlText
+                        }
+
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const getImageBtn = document.getElementById("takeImageBTN")
+                            const fileInput = document.getElementById("imagePost")
+                            const btnClear = document.getElementsByClassName("close-button")[0]
+
+                            getImageBtn.addEventListener("click", () => {
+                                fileInput.click()
+                            })
+
+                            fileInput.addEventListener("change", (event) => {
+                                const selectedImage = event.target.files[0];
+                                const alert = document.getElementsByClassName("alert-post")[0]
+                                try {
+                                    if (selectedImage.type === "image/jpeg" || selectedImage.type === "image/png" || selectedImage.type === "image/jpg") {
+                                        const putImage = document.getElementById("imagePostReady");
+                                        if (putImage) {
+                                            putImage.src = URL.createObjectURL(selectedImage);
+                                            btnClear.style.display = "block";
+                                        }
+                                    } else {
+                                        throw new Error("This file has a wrong type. Please choose images: jpg, png, jpeg.")
+                                        alert.textContent = "This file has a wrong type. Please choose images: jpg, png, jpeg."
+                                    }
+                                } catch (error) {
+                                    console.error(error.message);
+                                    alert.textContent = error.message;
+                                }
+                            })
+                            btnClear.addEventListener("click", () => {
+                                const image = document.getElementById("imagePostReady");
+                                image.src = "";
+                            })
+                        })
+
+                    </script>
+                    <script>
+
+                    </script>
+                    <div class="form-content">
+                        <div class="inner-form">
+                            <form action="{% url 'create_post' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="input-content">
+                                    <textarea name="textPost" oninput="autoResize(this)" id="form-post-id"
+                                              placeholder="What is happening?!" type="text"></textarea>
+                                </div>
+                                <div class="pre-post-img">
+                                    <img id="imagePostReady" src="" alt="">
+                                    <span class="close-button" onclick="clearImage()"
+                                          style="display: none">&times;</span>
+                                    <span class="alert-danger alert-post"></span>
+                                </div>
+                                <div class="types-content">
+                                    <div class="types-list">
+                                        <input id="imagePost" name="imgPost" accept=".jpg, .jpeg, .png" type="file"
+                                               class="elem-type" style="display: none">
+                                        <p id="takeImageBTN" class="elem-type">X</p>
+                                        <p class="elem-type">X</p>
+                                        <p class="elem-type">X</p>
+                                        <p class="elem-type">X</p>
+                                    </div>
+                                    <div style="margin-top: 10px">
+                                        <button type="submit" class="btn btn-success btn-submit">Post</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-content" style="padding-left: 17px">
+                    <script>
+
+                        $(document).ready(function () {
+                            $(".like-button").on("click", function () {
+                                var btn = $(this);
+                                var form = btn.closest("form");
+                                var url = form.attr("action");
+                                var post_id = form.find(".post-id-cl").val();
+                                const text_like_url = `.text-like-${post_id}`;
+                                var text_like = $(text_like_url);
+
+                                form.find('.like-action').val("like");
+                                $.ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    data: form.serialize(),
+
+                                    success: function (response) {
+                                        console.log(response.status);
+                                        btn.hide();
+                                        form.find(".unlike-button").show();
+                                        text_like.text(response.liked_post);
+                                    },
+                                    error: function (error) {
+                                        console.log("Error", error);
+                                    }
+                                });
+                            });
+
+                            $(".unlike-button").on("click", function () {
+                                var btn = $(this);
+                                var form = btn.closest("form");
+                                var url = form.attr("action");
+                                var post_id = form.find(".post-id-cl").val();
+                                const text_like_url = `.text-like-${post_id}`;
+                                var text_like = $(text_like_url);
+
+                                form.find('.like-action').val("unlike");
+                                $.ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    data: form.serialize(),
+
+                                    success: function (response) {
+                                        console.log(response.status);
+                                        btn.hide();
+                                        form.find(".like-button").show();
+                                        text_like.text(response.liked_post);
+                                    },
+                                    error: function (error) {
+                                        console.log("Error", error);
+                                    }
+                                });
+                            });
+
+
+                            $(".post-link").click(function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                const postLink = $(this);
+                                const href = postLink.data("href");
+
+                                if (href) {
+                                    window.location.href = href;
+                                }
+                            });
+
+
+                            $(".like-button, .post-comment, .nav-us, .unlike-button").click(function (e) {
+                                e.stopPropagation();
+                            });
+
+
+                        })
+                        ;
+
+
+                    </script>
+                    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+
+                    <script>
+                        $(document).ready(function () {
+                            $('.btn-copy').on('click', function (event) {
+                                event.stopPropagation();
+                                var textToCopy = $(this).data('clipboard-text');
+                                const alert = $("#alert-msg")
+
+                                navigator.clipboard.writeText(textToCopy)
+                                    .then(function () {
+                                        alert.text("Link was copied")
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide()
+                                            alert.text("")
+                                        }, 3000)
+                                    })
+                                    .catch(function (err) {
+                                        alert.removeClass("alert-success").addClass("alert-danger")
+                                        alert.text(err)
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide()
+                                            alert.removeClass("alert-danger").addClass("alert-success")
+                                            alert.text("")
+                                        }, 3000)
+                                    });
+                            });
+                        });
+
+                    </script>
+
+                    {% for post in posts reversed %}
+                        <div class="post-link post-container-1 post-container-{{ post.id }}"
+                             data-href="{% url 'post_detail' post_id=post.id %}">
+                            <div class="content">
+                                <div class="logo-post-side">
+                                    <div class="logo-post">
+                                        <a href="{% url 'profile' pk=post.username %}">
+                                            <img class="logo-image" src="{{ post.user_profile.avatar.url }}" alt="">
+                                        </a>
+                                        <input class="post-id-href" type="hidden" value="{{ post.id }}">
+                                    </div>
+                                </div>
+                                <div class="content-side">
+                                    <div class="nav-user">
+                                        <div class="nav-us">
+                                            <div class="nav-user-post">
+                                                <a href="{% url 'profile' pk=post.username %}">
+                                                    <span class="nickname href-to-profile">{{ post.user_profile.nickname }}</span>
+                                                </a>
+                                                <a href="{% url 'profile' pk=post.username %}">
+                                                    <span class="username href-to-profile">@{{ post.user_profile.username }}</span>
+                                                </a>
+                                                <span style="color: #828282;"> &nbsp;-&nbsp; </span>
+
+                                                <div class="post-date">
+                                                    <span style="color: #828282;"> {{ post.created_at.date }} </span>
+                                                </div>
+                                            </div>
+                                            <div class=".more-settings-post">
+                                                <div class="circle">
+                                                    ---
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text">
+                                        {{ post.caption|linebreaksbr }}
+                                    </div>
+                                    <div class="image-container" style="margin-top: 8px">
+                                        {% if post.image %}
+                                            <img class="post-img" src="{{ post.image.url }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="post-instruments">
+                                        <div class="like-comment-share">
+                                            <div class="like">
+                                                <form id="like-form-{{ post.id }}" action="{% url 'like' %}"
+                                                      method="post">
+                                                    {% csrf_token %}
+                                                    {% if profile not in post.get_all_liked_profiles %}
+                                                        <input type="hidden" class="post-id-cl" name="post_id"
+                                                               value="{{ post.id }}">
+                                                        <input type="hidden" name="action" class="like-action"
+                                                               value="like">
+                                                        <button style="display: block" type="button"
+                                                                class="like-button like-btn">
+                                                            <img src="{% static 'images/icons8-like-50.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                        <button type="button" class="unlike-button like-btn"
+                                                                style="display: none">
+                                                            <img src="{% static 'images/icons8-love-48.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                    {% else %}
+                                                        <input type="hidden" class="post-id-cl" name="post_id"
+                                                               value="{{ post.id }}">
+                                                        <input type="hidden" name="action" class="like-action"
+                                                               value="unlike">
+                                                        <button style="display: none" type="button"
+                                                                class="like-button like-btn">
+                                                            <img src="{% static 'images/icons8-like-50.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                        <button type="button" class="unlike-button like-btn"
+                                                                style="display: block">
+                                                            <img src="{% static 'images/icons8-love-48.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>
+
+                                            </div>
+                                            <div class="comment">
+                                                <img src="{% static 'images/icons8-comment-50.png' %}" alt="">
+                                            </div>
+                                            <div class="share">
+                                                <img class="btn-copy"
+                                                     data-clipboard-text="{% url 'post_detail' post_id=post.id %}"
+                                                     src="{% static 'images/icons8-share-50.png' %}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="bookmark">
+                                            <div class="comment">
+
+                                                <form id="form-save-{{ post.id }}" action="{% url 'save_post' %}">
+                                                    {% csrf_token %}
+                                                    {% if post not in saved_posts %}
+                                                        <input class="post_id_save" name="post_save_id" type="hidden"
+                                                               value="{{ post.id }}">
+                                                        <input type="hidden" name="action" class="save-action"
+                                                               value="unsave">
+                                                        <button class="save-btn" type="submit"
+                                                                style="display: block; background: transparent; width: 40px; border: transparent">
+                                                            <img src="{% static 'images/icons8-bookmark-32.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                        <button class="unsave-btn" type="submit"
+                                                                style="display: none; background: transparent; width: 40px; border: transparent">
+                                                            <img src="{% static 'images/icons8-favorites-50.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                    {% else %}
+                                                        <input class="post_id_save" name="post_save_id" type="hidden"
+                                                               value="{{ post.id }}">
+                                                        <input type="hidden" name="action" class="save-action"
+                                                               value="unsave">
+                                                        <button class="unsave-btn" type="submit"
+                                                                style="display: block; background: transparent; width: 40px; border: transparent">
+                                                            <img src="{% static 'images/icons8-favorites-50.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                        <button class="save-btn" type="submit"
+                                                                style="display: none; background: transparent; width: 40px; border: transparent">
+                                                            <img src="{% static 'images/icons8-bookmark-32.png' %}"
+                                                                 alt="">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="like-info">
+                                        {% if post.get_number_of_likes == 0 %}
+                                            <h4 class="text-like-{{ post.id }}">No likes</h4>
+                                        {% elif post.get_number_of_likes == 1 %}
+                                            <h4 class="text-like-{{ post.id }}">{{ post.get_number_of_likes }}
+                                                like</h4>
+                                        {% else %}
+                                            <h4 class="text-like-{{ post.id }}">{{ post.get_number_of_likes }}
+                                                like</h4>
+                                        {% endif %}
+                                    </div>
+                                    <div class="comment-post">
+                                        <div class="show-comment">
+                                            <h4 class="text-like">View all comments</h4>
+                                        </div>
+                                        <div class="post-comment">
+                                            <form class="comment-form" id="comment-form-{{ post.id }}"
+                                                  action="{% url 'comment' %}" method="post">
+                                                {% csrf_token %}
+                                                <div class="text-com">
+                                                        <textarea name="commentField" class="com"
+                                                                  oninput="autoResize(this)"
+                                                                  placeholder="Comment here..."></textarea>
+                                                </div>
+                                                <div class="submit">
+                                                    <input type="hidden" name="post_id_comment"
+                                                           class="post_id_comment" value="{{ post.id }}">
+                                                    <button type="submit"
+                                                            class="btn-input btn-sm btn-success comment-btn-submit">
+                                                        Post
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                    <script>
+                        $(document).ready(function () {
+
+                            $(".comment-btn-submit").on("click", function (event) {
+                                event.preventDefault()
+                                event.stopImmediatePropagation();
+                                var btn = $(this);
+                                var form = btn.closest("form")
+                                var textarea = form.find(".com")
+                                var url = form.attr("action")
+                                $.ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    data: form.serialize(),
+
+                                    success: function (response) {
+                                        console.log(response.status)
+                                        textarea.val("")
+
+                                        const alert = $("#alert-msg")
+                                        alert.text("Comment was sent")
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide()
+                                            alert.text("")
+                                        }, 3000)
+
+
+                                    },
+
+                                    error: function (error) {
+                                        console.log("Error", error)
+                                        textarea.val("")
+
+                                        const alert = $("#alert-msg")
+                                        alert.text("Error")
+                                        alert.removeClass("alert-success").addClass("alert-danger");
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide();
+                                            alert.text("");
+                                            alert.removeClass("alert-success").addClass("alert-danger");
+                                            setTimeout(function () {
+                                                alert.addClass("alert-success").removeClass("alert-danger");
+                                            }, 100);
+                                        }, 3000);
+
+                                    }
+                                });
+
+                            });
+                        });
+                    </script>
+                    <script>
+                        $(document).ready(function () {
+
+                            $('.save-btn').on("click", function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                var btn = $(this);
+                                var form = btn.closest("form")
+                                var url = form.attr("action")
+                                const alert = $("#alert-msg")
+                                const post_id = form.find(".post_id_save").val()
+
+                                const action = form.find(".save-action").val("save")
+                                $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: form.serialize(),
+                                    success: function (e) {
+                                        console.log(e.status)
+                                        btn.hide()
+                                        form.find(".unsave-btn").show()
+                                        alert.text("Saved")
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide()
+                                            alert.text("")
+                                        }, 3000)
+                                    },
+                                    error: function (error) {
+                                        console.log("Error", error)
+                                        alert.text("Error")
+                                        alert.removeClass("alert-success").addClass("alert-danger");
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide();
+                                            alert.text("");
+                                            setTimeout(function () {
+                                                alert.addClass("alert-success").removeClass("alert-danger");
+                                            }, 100);
+                                        }, 3000);
+                                    }
+                                })
+                            })
+                            $('.unsave-btn').on("click", function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                var btn = $(this);
+                                var form = btn.closest("form")
+                                var url = form.attr("action")
+                                const alert = $("#alert-msg")
+                                const post_id = form.find(".post_id_save").val()
+
+                                const action = form.find(".save-action").val("unsave")
+
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: form.serialize(),
+                                    success: function (e) {
+                                        btn.hide()
+                                        console.log(e.status)
+                                        alert.text("Removed from saves")
+                                        alert.show()
+                                        form.find(".save-btn").show()
+                                        setTimeout(function () {
+                                            alert.hide()
+                                            alert.text("")
+                                        }, 3000)
+                                    },
+                                    error: function (error) {
+                                        console.log("Error", error)
+                                        alert.text("Error")
+                                        alert.removeClass("alert-success").addClass("alert-danger");
+                                        alert.show()
+                                        setTimeout(function () {
+                                            alert.hide();
+                                            alert.text("");
+                                            setTimeout(function () {
+                                                alert.addClass("alert-success").removeClass("alert-danger");
+                                            }, 100);
+                                        }, 3000);
+                                    }
+                                })
+                            })
+                        })
+                    </script>
+                    <div class="post-container-1">
+                        <div class="content">
+                            <div class="logo-post-side">
+                                <div class="logo-post">
+                                    <img class="logo-image" src="{% static 'images/avatar.jpg' %}" alt="">
+                                </div>
+                            </div>
+                            <div class="content-side">
+                                <div class="nav-user">
+                                    <div class="nav-us">
+                                        <span class="nickname">Enspire</span>
+                                        <span class="username">@EnspireNFT</span>
+                                    </div>
+                                    <div class="more-settings">
+                                        <div class="circle">
+                                            <span class="more-set-dots">...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text">
+                                    <p>
+                                        🇮🇱 🇺🇦 ЦАХАЛ дал ООН повод для крайней озабоченности😉:
+                                    </p>
+                                    <p>
+                                        Командование Армии обороны Израиля уведомило ООН, что все население северных
+                                        районов сектора Газы должно быть эвакуировано на юг сектора в ближайшие 24 часа.
+                                    </p>
+                                    <p>
+                                        Об этом сообщил представитель ООН, отметив, что на севере сектора Газы проживает
+                                        около 1,1 миллиона человек.
+                                    </p>
+                                </div>
+                                <div class="image-container">
+                                    <img class="post-img" src="{% static 'images/post.jpg' %}" alt="">
+                                </div>
+                                <div class="post-instruments">
+                                    <div class="like-comment-share">
+                                        <div class="like">
+
+                                        </div>
+                                        <div class="comment">
+                                            <img src="{% static 'images/icons8-comment-50.png' %}" alt="">
+                                        </div>
+                                        <div class="share">
+                                            <img src="{% static 'images/icons8-share-50.png' %}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="bookmark">
+                                        <div class="comment">
+                                            <img src="{% static 'images/icons8-comment-50.png' %}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="like-info">
+                                    <h4 class="text-like">4,989 likes</h4>
+                                </div>
+                                <div class="comment-post">
+                                    <div class="show-comment">
+                                        <h4 class="text-like">View all comments</h4>
+                                    </div>
+                                    <div class="post-comment">
+                                        <form>
+                                            <div class="text-com">
+                                                <textarea class="com" oninput="autoResize(this)"
+                                                          placeholder="Comment here..." id=""></textarea>
+                                            </div>
+                                            <div class="submit">
+                                                <button type="submit" class="btn-input btn-sm  btn-success">Post
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            left side-->
+            <div class="left-side wrap3">
+                <div class="suggested-users">
+                    <div class="description-field">
+                        <h4 class="des-text">Suggested for you</h4>
+                        <h4>See all</h4>
+                    </div>
+                    <div class="suggested-accs">
+                        {% for suggest_user in suggestion %}
+                            <div class="user-1">
+                                <div class="img-sug-user">
+                                    <a href="{% url 'profile' pk=suggest_user.username %}">
+                                        <img class="logo-image" src="{{ suggest_user.avatar.url }}" alt="">
+                                    </a>
+                                </div>
+                                <div class="nav-users">
+                                    <a href="{% url 'profile' pk=suggest_user.username %}"
+                                       class="nickname href-to-profile">{{ suggest_user.nickname }}</a>
+                                    <a href="{% url 'profile' pk=suggest_user.username %}"
+                                       class="username href-to-profile">@{{ suggest_user.username }}</a>
+                                </div>
+                                <div class="follow-btn">
+                                    <form class="follow-form" id="follow-form-{{ suggest_user.username.username }}"
+                                          action="{% url 'follow_home' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" class="follow-action" name="action" value="follow">
+                                        <input type="hidden" name="receiver"
+                                               value="{{ suggest_user.username.username }}">
+                                        <button type="button" class="follow-button btn-follow-sug">Follow</button>
+                                        <button type="button" class="unfollow-button btn-follow-sug"
+                                                style="display: none;">Unfollow
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                $(".follow-button").click(function () {
+                                    var btn = $(this);
+                                    var form = btn.closest("form");
+                                    var action = form.attr('action');
+
+                                    form.find(".follow-action").val("follow");
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: action,
+                                        data: form.serialize(),
+
+                                        success: function (response) {
+                                            console.log(response.status);
+                                            btn.hide();
+                                            form.find(".unfollow-button").show();
+                                        },
+                                        error: function (error) {
+                                            console.log('Error:', error);
+                                        }
+                                    });
+                                });
+
+                                $(".unfollow-button").click(function () {
+                                    var btn = $(this);
+                                    var form = btn.closest("form");
+                                    var action = form.attr("action");
+                                    form.find(".follow-action").val("unfollow");
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: action,
+                                        data: form.serialize(),
+                                        success: function (response) {
+                                            console.log(response.status);
+                                            btn.hide();
+                                            form.find(".follow-button").show();
+                                        },
+                                        error: function (error) {
+                                            console.log("Error", error);
+                                        },
+                                    });
+                                });
+                            });
+                        </script>
+                    </div>
+                    <div class="empty">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="alert-msg" class="message-method alert-success" style="display: none">
+
+        </div>
+
+        <div id="postdetail-container" style="z-index: 1">
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

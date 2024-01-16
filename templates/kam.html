@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Post - ({{ post_detail.username }}) {% endblock %}
+
+
+{% block content %}
+
+    <div id="page-post-url-detail">
+
+        <div class="close-and-comeback-detail" style="z-index: 1; position: fixed">
+            <span id="clearHTML">X</span>
+        </div>
+        <div class="container-post-detail">
+            <div class="image-full-post-flex-detail">
+                {% if post_detail.image %}
+                    <div class="image-post-container-detail">
+                        <img src="{{ post_detail.image.url }}" alt="">
+                    </div>
+                {% else %}
+                    <div class="image-post-container-detail" style="background: black">
+                        {#                    will be without image post tommorow))#}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="content-post-flex-detail">
+                <div class="navs-post-user-comment-detail">
+                    <div class="logo-comment-container-detail">
+                        <img src="{{ post_detail.user_profile.avatar.url }}" alt="">
+                    </div>
+                    <div class="usernick-post-detail">
+                          <span class="nickname-post-detail">
+                                                     <a style="color: black;" class="clear-href-design"
+                                                        href="{% url 'profile' pk=post_detail.user_profile.username %}">
+                                                    {{ post_detail.user_profile.nickname }}
+                                                     </a>
+                                                </span>
+                        <span class="username-post-detail">
+                                                    <a style="color:#616161;" class="clear-href-design"
+                                                       href="{% url 'profile' pk=post_detail.user_profile.username %}">
+                                                    {{ post_detail.user_profile.username }}
+                                                    </a>
+                                                </span>
+                    </div>
+                </div>
+                <div class="caption-post-detail">
+                    {{ post_detail.caption|safe }}
+                </div>
+                <div class="tools-post-detail">
+                    <div class="like-comment-share-post-detail">
+                        <div class="like-post-detail">
+                            <img src="{% static 'images/icons8-like-50.png' %}" alt="">
+                        </div>
+                        <div class="comment-post-detail">
+                            <img src="{% static 'images/icons8-comment-50.png' %}" alt="">
+                        </div>
+                        <div class="share-post-detail">
+                            <img src="{% static 'images/icons8-share-50.png' %}" alt="">
+                        </div>
+                        <div class="pre-bookmark-post-detail">
+                            <img src="{% static 'images/icons8-bookmark-32.png' %}" alt="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="comment-post-full-detail">
+                    <div class="comment-inner-container-detail">
+                        <div class="logo-comment-container-detail">
+                            <img src="{{ my_profile.avatar.url }}" alt="">
+                        </div>
+                        <form id="comment-form-{{ post.id }}" action="{% url 'comment' %}" method="post"
+                              class="comment-form-inner-detail">
+                            {% csrf_token %}
+                            <div class="text-area-comment-detail">
+                                    <textarea name="commentField" placeholder="Reply this post" id="" cols="30"
+                                              rows="10"></textarea>
+                            </div>
+                            <input type="hidden" name="post_id_comment" class="post_id_comment"
+                                   value="{{ post_detail.id }}">
+                            <div class="form-comment-tools-detail">
+                                <button id="reply-btn" type="submit" class="btn btn-success">Reply</button>
+                            </div>
+                        </form>
+                        <script>
+                            $(document).ready(function () {
+                                $("#reply-btn").on("click", function (e) {
+                                    e.preventDefault();
+                                    e.stopImmediatePropagation();
+                                    var btn = $(this);
+                                    var form = btn.closest("form");
+                                    var url = form.attr("action");
+                                    var textarea = form.find("textarea");
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: url,
+                                        data: form.serialize(),
+                                        success: function (response) {
+                                            console.log(response.status);
+                                            textarea.val("");
+
+                                            var newComment = `
+            <div class="comment-1-detail">
+                <div class="comment-navs-container-detail">
+                    <div class="comment-nav-1-detail">
+                        <div class="logo-comment-container-detail">
+                            <img src="${response.avatar}" alt="">
+                        </div>
+                        <div class="usernick-comment-detail">
+                            <span class="nickname-post-detail">
+                                <a style="color: black;" class="clear-href-design"
+                                   href="${response.username_href}">
+                                    ${response.nickname}
+                                </a>
+                            </span>
+                            <span class="username-post-detail">
+                                <a style="color:#616161;" class="clear-href-design"
+                                   href=${response.username_href}>
+                                    ${response.username}
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="caption-comment-detail">
+                    <p class="text-container-detail">
+                        ${response.text}
+                    </p>
+                </div>
+            </div>
+        `;
+
+                                            $(".comments-container-detail").prepend(newComment);
+                                        },
+                                        error: function (error) {
+                                            textarea.val("");
+                                            console.log("Error", error);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="comments-container-detail">
+                    {% for comment in comments reversed %}
+                        <div class="comment-1-detail">
+                            <div class="comment-navs-container-detail">
+                                <div class="comment-nav-1-detail">
+                                    <div class="logo-comment-container-detail">
+                                        <img src="{{ comment.author.avatar.url }}" alt="">
+                                    </div>
+                                    <div class="usernick-comment-detail">
+                                <span class="nickname-post-detail">
+                                                     <a style="color: black;" class="clear-href-design"
+                                                        href="{% url 'profile' pk=comment.author.username %}">
+                                                    {{ comment.author.nickname }}
+                                                     </a>
+                                                </span>
+                                        <span class="username-post-detail">
+                                                    <a style="color:#616161;" class="clear-href-design"
+                                                       href="{% url 'profile' pk=comment.author.username %}">
+                                                    {{ comment.author.username }}
+                                                    </a>
+                                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="caption-comment-detail">
+                                <p class="text-container-detail">
+                                    {{ comment.text|linebreaksbr }}
+                                </p>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

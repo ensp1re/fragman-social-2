@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Messages: (@{{ my_profile.username }}) {% endblock %}
+
+{% block content %}
+    <div class="Page">
+        <div class="wrap-container">
+            <!--            left side-->
+            <div class="navigate-bars wrap-1">
+                <div class="empty">
+                </div>
+                <div class="main-left-container">
+                    <div class="logo">
+                        <h4>Fragman</h4>
+                    </div>
+
+                    <nav class="nav-bar">
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                                     viewBox="0 0 24 24">
+                                    <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
+                                </svg>
+                            </div>
+                            <div class="a">
+                                <a href="{% url 'index' %}" class="home-href">Home</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                     viewBox="0 0 30 30">
+                                    <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"></path>
+                                </svg>
+                            </div>
+                            <div class="explore">
+                                <a href="{% url 'explore' %}" class="explore-href">Explore</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-notifications-78.png' %}" alt="">
+                            </div>
+                            <div class="notifications">
+                                <a href="{% url 'notifications' %}" class="notifications-href">Notifications</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-chat-bubble-50.png' %}" alt="">
+                            </div>
+                            <div class="Message">
+                                <a href="{% url 'show_msg' %}" class="Message-href">Message</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="Profile">
+                                <a href="profile/{{ user.username }}" class="profile-href">Profile</a>
+                            </div>
+                        </div>
+                        <div class="home-nav">
+                            <div class="svg">
+                                <img style="width: 35px; height: 35px"
+                                     src="{% static 'images/icons8-customer-64.png' %}" alt="">
+                            </div>
+                            <div class="More">
+                                <a class="more-href">More</a>
+                            </div>
+                        </div>
+                        <div class="hidden-settings">
+                            <a id="settings-hover" href="{% url 'logout' %}"> Logout</a>
+                        </div>
+
+
+                    </nav>
+                    <div class="more-settings">
+                        <div class="logout-profile-settings">
+                            <div class="lgm">
+                                <div>
+                                    <img class="logo-image lgm" src="{{ my_profile.avatar.url }}" alt="">
+                                </div>
+                            </div>
+                            <div class="user-nick">
+                                <div class="set-nick-user">
+                                    <span class="nickname ">{{ my_profile.nickname }}</span>
+                                    <span class="username">@{{ my_profile.username }}</span>
+                                </div>
+                            </div>
+                            <div class="dots">
+                                <h4>...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-sector wrap-2">
+                <div class="content-sector wrap-2">
+                    <div class="message-container">
+                        <div class="navs-message">
+                            <div class="logo-comment-container-detail">
+                                <img src="{{ receiver.avatar.url }}" alt="">
+                            </div>
+                            <div class="usernick-comment-detail">
+
+                                                <span class="nickname-post-detail">
+                                                     <a style="color: black;" class="clear-href-design"
+                                                        href="{% url 'profile' pk=receiver.username %}">
+                                                    {{ receiver.nickname }}
+                                                     </a>
+                                                </span>
+                                <span class="username-post-detail">
+                                                    <a style="color:#616161;" class="clear-href-design"
+                                                       href="{% url 'profile' pk=receiver.username %}">
+                                                    {{ receiver.username }}
+                                                    </a>
+                                                </span>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                // Прокручиваем вниз к последнему сообщению
+                                $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
+                            });
+                        </script>
+                        {#                        <script>#}
+                        {#                            $(document).ready(() => {#}
+                        {#                                let loading = false;#}
+                        {#                                let lastMessageID = 7;#}
+                        {##}
+                        {#                                function addMoreMessages() {#}
+                        {#                                    if (loading) {#}
+                        {##}
+                        {#                                    $.ajax({#}
+                        {#                                        type: 'GET',#}
+                        {#                                        url: '{% url "load_message" %}',#}
+                        {#                                        data: {#}
+                        {#                                            "last_id_message": lastMessageID,#}
+                        {#                                            "rel_id": {{ id }},#}
+                        {#                                        },#}
+                        {##}
+                        {#                                        success: function (data) {#}
+                        {#                                            if (data.length > 0) {#}
+                        {##}
+                        {#                                                for (i = 0; i < data.length; i++) {#}
+                        {#                                                    const message = data[i]#}
+                        {#                                                    const htmlMessage = ` <div class="message-user-container" style="margin-top: 5px;">#}
+                        {#                                    <div class="message-user-logo-nickname">#}
+                        {#                                        <div class="logo-message">#}
+                        {#                                            <img src="${message.sender.avatar.url}" alt="">#}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                    <div class="text-container">#}
+                        {#                                        <div class="link-user" style="display: flex; width: 100px; flex-direction: row">#}
+                        {#            <span class="nickname-post-detail" style="margin-right: 10px;">#}
+                        {#                <a href="${message.sender.username}"></a>#}
+                        {#            </span>#}
+                        {#                                            <span class="username-post-detail">#}
+                        {#                <a href="${message.sender.username}"></a>#}
+                        {#            </span>#}
+                        {#                                        </div>#}
+                        {#                                        <div class="text-message-content">#}
+                        {#                                             ${message.content}#}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                </div>`#}
+                        {#                                                    $(".message-content").prepend(htmlMessage)#}
+                        {#                                                    lastMessageID += 7;#}
+                        {#                                                }#}
+                        {#                                            }#}
+                        {#                                        },#}
+                        {##}
+                        {#                                        error: function (xhr, status, error) {#}
+                        {#                                            console.error(error);#}
+                        {#                                        },#}
+                        {#                                        complete: function () {#}
+                        {#                                            loading = false;#}
+                        {#                                        }#}
+                        {#                                    })#}
+                        {#                                }}#}
+                        {##}
+                        {#                                $(".message-content").scroll(() => {#}
+                        {#                                    if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 100) {#}
+                        {#                                        loading = true;#}
+                        {#                                        addMoreMessages();#}
+                        {#                                    }#}
+                        {#                                })#}
+                        {##}
+                        {#                            })#}
+                        {#                        </script>#}
+                        <div class="message-content">
+                            {% for message in messages %}
+                                <div class="message-user-container" style="margin-top: 5px;">
+                                    <div class="message-user-logo-nickname">
+                                        <div class="logo-message">
+                                            <img src="{{ message.sender.avatar.url }}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="text-container">
+                                        <div class="link-user" style="display: flex; width: 100px; flex-direction: row">
+            <span class="nickname-post-detail" style="margin-right: 10px;">
+                <a href="{% url 'profile' pk=message.sender.username %}">{{ message.sender.nickname }}</a>
+            </span>
+                                            <span class="username-post-detail">
+                <a href="{% url 'profile' pk=message.sender.username %}">{{ message.sender.username }}</a>
+            </span>
+                                        </div>
+                                        <div class="text-message-content">
+                                            {{ message.content }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                    <div class="send-form">
+                        <form action="{% url 'send_message' id=id %}"
+                              style="display: flex; width: 100%; align-items: center" method="post">
+                            {% csrf_token %}
+                            <div class="input-group mb-3"
+                                 style="display: flex;  justify-content: space-around; align-items: center; padding: 10px;">
+                                <input name="message" style="width: 600px; margin-right: 10px;" type="text"
+                                       class="form-control"
+                                       placeholder="Write a new message..."
+                                       aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary btn-success btn-sm" type="submit">Send
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--            left side-->
+            <div class="left-side wrap3">
+
+                <div class="empty">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
